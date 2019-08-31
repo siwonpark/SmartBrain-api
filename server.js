@@ -1,29 +1,34 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
+const bcrypt = require('bcrypt');
+const cors = require('cors');
+const saltRounds = 10;
 const app = express();
-app.use(bodyParser.json());
 
 const database = {
     users: [
         {
             id: '123', 
             name: 'Siwon', 
+            password: 'cookies',
             email: 'spark@gmail.com',
-            password: 'cookies', 
             entries: 0, 
             joined: new Date()
         },
         {
             id: '124', 
             name: 'Saly', 
+            password: 'bananas',
             email: 'saly@gmail.com',
-            password: 'bananas', 
             entries: 0, 
             joined: new Date()
         }
     ]
 }
+
+
+app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send(database.users);
@@ -80,6 +85,7 @@ app.post('/image', (req, res) => {
         res.status(400).json('not found');
     }
 })
+
 
 app.listen(3000, () => {
     console.log('app is running on port 3000');
